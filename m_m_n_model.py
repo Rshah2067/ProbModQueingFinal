@@ -27,6 +27,8 @@ def m_m_n_model(model_config):
 
     for _ in range(num_steps):
         arrivals = int(max(0, arrival_dist(rng, arrival_rate)))
+
+        in_system += arrivals
         active_servers = min(num_servers, in_system)
         departures = (
             int(max(0, service_dist(rng, service_rate, active_servers)))
@@ -34,7 +36,7 @@ def m_m_n_model(model_config):
             else 0
         )
 
-        in_system = max(0, in_system + arrivals - departures)
+        in_system = max(0, in_system - departures)
         system_state.append(in_system)
 
     return system_state
